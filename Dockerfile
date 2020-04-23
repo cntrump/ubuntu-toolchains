@@ -3,7 +3,7 @@ FROM ubuntu:18.04
 ARG TOOLCHAINS="build-essential automake libtool pkg-config \
                 curl git cmake ninja-build python3-pip"
 
-RUN apt-get update && apt-get install ${TOOLCHAINS} -y && apt-get clean
+RUN apt-get update && apt-get install ${TOOLCHAINS} -y && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN pip3 install --user meson
 
