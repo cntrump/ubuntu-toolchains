@@ -9,10 +9,11 @@ RUN pip3 install --user meson
 
 ENV PATH=$PATH:~/.local/bin
 
-RUN git clone --depth=1 https://repo.or.cz/nasm.git \
-    && cd ./nasm && ./autogen.sh && ./configure --prefix=/usr/local \
-    && make && make install && cd .. && rm -rf ./nasm
+RUN curl -O https://www.nasm.us/pub/nasm/releasebuilds/2.14.02/nasm-2.14.02.tar.bz2 \
+    && tar -jxvf ./nasm-2.14.02.tar.bz2 && rm ./nasm-2.14.02.tar.bz2 \
+    && cd ./nasm-2.14.02 && ./configure --prefix=/usr/local \
+    && make && make install && cd .. && rm -rf ./nasm-2.14.02
 
-RUN git clone --depth=1 https://github.com/yasm/yasm.git \
+RUN git clone -b v1.3.0 --depth=1 https://github.com/yasm/yasm.git \
     && cd ./yasm && ./autogen.sh && ./configure --prefix=/usr/local \
     && make && make install && cd .. && rm -rf ./yasm
