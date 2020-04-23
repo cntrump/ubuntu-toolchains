@@ -17,3 +17,9 @@ RUN curl -O https://www.nasm.us/pub/nasm/releasebuilds/2.14.02/nasm-2.14.02.tar.
 RUN git clone -b v1.3.0 --depth=1 https://github.com/yasm/yasm.git \
     && cd ./yasm && ./autogen.sh && ./configure --prefix=/usr/local \
     && make && make install && cd .. && rm -rf ./yasm
+    
+RUN git clone -b OpenSSL_1_1_1g --depth=1 https://github.com/openssl/openssl.git \
+    && cd ./openssl && ./config --prefix=/usr/local && make && make install \
+    && cd .. && rm -rf ./openssl
+    
+ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:/usr/local/lib:/usr/local/lib/x86_64-linux-gnu
