@@ -9,6 +9,7 @@
 - [openssl](https://www.openssl.org)
 - [nasm](https://nasm.us/)
 - [yasm](https://yasm.tortall.net/)
+- [zlib](https://www.zlib.net)
 
 ## Build your Docker image
 
