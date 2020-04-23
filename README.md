@@ -1,6 +1,14 @@
 # Ubuntu toolchains
 
-GCC toolchains
+- GCC toolchains
+- pkg-config
+- autotools
+- [ninja](https://ninja-build.org)
+- [cmake](https://cmake.org)
+- [meson](https://mesonbuild.com)
+- [openssl](https://www.openssl.org)
+- [nasm](https://nasm.us/)
+- [yasm](https://yasm.tortall.net/)
 
 ## Build your Docker image
 
