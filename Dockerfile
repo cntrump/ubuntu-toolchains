@@ -1,7 +1,7 @@
 FROM ubuntu:18.04
 
 ARG TOOLCHAINS="build-essential automake libtool pkg-config \
-                curl git cmake ninja-build python3-pip"
+                curl git cmake ninja-build python3-pip asciidoc"
 
 RUN apt-get update && apt-get install ${TOOLCHAINS} -y && apt-get clean
 
