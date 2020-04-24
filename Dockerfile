@@ -30,7 +30,11 @@ RUN curl -O https://www.zlib.net/zlib-1.2.11.tar.gz \
     && ./configure --prefix=/usr/local && make && make install \
     && cd .. && rm -rf ./zlib-1.2.11
 
-RUN apt-get remove curl -y
+RUN apt-get remove curl libcurl4 -y
+
+ARG CURL_DEPS="libbrotli-dev libidn2-dev libpsl-dev libssh-dev librtmp-dev heimdal-dev libldap2-dev"
+
+RUN apt-get update && apt-get install ${CURL_DEPS} -y && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN git clone -b v1.40.0 --depth=1 https://github.com/nghttp2/nghttp2.git \
     && cd ./nghttp2 && autoreconf -i && automake && autoconf \
@@ -39,7 +43,8 @@ RUN git clone -b v1.40.0 --depth=1 https://github.com/nghttp2/nghttp2.git \
 
 RUN git clone -b curl-7_69_1 --depth=1 https://github.com/curl/curl.git \
     && cd ./curl && autoreconf -i && automake && autoconf \
-    && ./configure --prefix=/usr/local --with-ssl --with-nghttp2 \
+    && ./configure --prefix=/usr/local --with-ssl --with-nghttp2 --with-libssh \
+                   --with-gssapi --enable-ldap --enable-ldaps \
     && make && make install && cd .. && rm -rf ./curl
 
 ENV LD_LIBRARY_PATH /usr/local/lib:/usr/local/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
