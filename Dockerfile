@@ -32,19 +32,26 @@ RUN curl -O https://www.zlib.net/zlib-1.2.11.tar.gz \
 
 RUN apt-get remove curl libcurl4 -y
 
-ARG CURL_DEPS="libbrotli-dev libidn2-dev libpsl-dev libssh-dev librtmp-dev heimdal-dev libldap2-dev"
+ARG CURL_DEPS="libbrotli-dev libidn2-dev libpsl-dev libssh-dev librtmp-dev heimdal-dev libldap2-dev libxml2-dev"
 
 RUN apt-get update && apt-get install ${CURL_DEPS} -y && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+RUN git clone -b release-0.1.3 --depth=1 https://github.com/metalink-dev/libmetalink.git \
+    && cd ./libmetalink && ./buildconf && ./configure --prefix=/usr/local \
+    && make && make install && cd .. && rm -rf ./libmetalink
 
 RUN git clone -b v1.40.0 --depth=1 https://github.com/nghttp2/nghttp2.git \
     && cd ./nghttp2 && autoreconf -i && automake && autoconf \
     && ./configure --prefix=/usr/local --enable-lib-only && make && make install \
     && cd .. && rm -rf ./nghttp2
 
-RUN git clone -b curl-7_69_1 --depth=1 https://github.com/curl/curl.git \
-    && cd ./curl && autoreconf -i && automake && autoconf \
+ENV CURL_CHECKOUT_VERSION=7_69_1
+ENV CURL_VERSION=7.69.1
+
+RUN git clone -b curl-${CURL_CHECKOUT_VERSION} --depth=1 https://github.com/curl/curl.git \
+    && cd ./curl && ./maketgz ${CURL_VERSION} only && ./buildconf \
     && ./configure --prefix=/usr/local --with-ssl --with-nghttp2 --with-libssh \
-                   --with-gssapi --enable-ldap --enable-ldaps \
+                   --with-gssapi --enable-ldap --enable-ldaps --with-libmetalink \
     && make && make install && cd .. && rm -rf ./curl
 
 ENV LD_LIBRARY_PATH /usr/local/lib:/usr/local/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
