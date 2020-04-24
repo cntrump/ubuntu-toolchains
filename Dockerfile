@@ -1,5 +1,7 @@
 FROM ubuntu:20.04
 
+ENV DEBIAN_FRONTEND=noninteractive
+
 ARG TOOLCHAINS="build-essential automake libtool pkg-config \
                 curl git cmake ninja-build python3-pip"
 
