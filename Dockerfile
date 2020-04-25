@@ -30,8 +30,6 @@ RUN curl -O https://www.zlib.net/zlib-1.2.11.tar.gz \
     && ./configure --prefix=/usr/local && make && make install \
     && cd .. && rm -rf ./zlib-1.2.11
 
-RUN apt-get remove curl libcurl4 -y
-
 ARG CURL_DEPS="libbrotli-dev libidn2-dev libpsl-dev libssh-dev librtmp-dev heimdal-dev libldap2-dev libxml2-dev"
 
 RUN apt-get update && apt-get install ${CURL_DEPS} -y && apt-get clean && rm -rf /var/lib/apt/lists/*
