@@ -52,4 +52,8 @@ RUN git clone -b curl-${CURL_CHECKOUT_VERSION} --depth=1 https://github.com/curl
                    --with-gssapi --enable-ldap --enable-ldaps --with-libmetalink \
     && make && make install && cd .. && rm -rf ./curl
 
+RUN git clone -b v3.17.1 --depth=1 https://github.com/Kitware/CMake.git \
+    && cd ./CMake && ./bootstrap --prefix=/usr/local && make && make install \
+    && cd .. && rm -rf ./CMake
+
 ENV LD_LIBRARY_PATH /usr/local/lib:/usr/local/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
