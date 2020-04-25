@@ -1,6 +1,4 @@
-FROM ubuntu:20.04
-
-ENV DEBIAN_FRONTEND=noninteractive
+FROM cntrump/ubuntu-template:20.04
 
 ARG TOOLCHAINS="build-essential automake libtool pkg-config \
                 curl git cmake ninja-build python3-pip"
@@ -55,5 +53,3 @@ RUN git clone -b curl-${CURL_CHECKOUT_VERSION} --depth=1 https://github.com/curl
 RUN git clone -b v3.17.1 --depth=1 https://github.com/Kitware/CMake.git \
     && cd ./CMake && ./bootstrap --prefix=/usr && make && make install \
     && cd .. && rm -rf ./CMake
-
-ENV LD_LIBRARY_PATH /usr/local/lib:/usr/local/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
