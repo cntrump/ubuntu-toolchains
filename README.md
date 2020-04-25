@@ -1,5 +1,7 @@
 # Ubuntu toolchains
 
+Base on Ubuntu 20.04
+
 - GCC toolchains
 - pkg-config
 - autotools
