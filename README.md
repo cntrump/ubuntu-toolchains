@@ -12,6 +12,7 @@ Base on Ubuntu 20.04
 - [nasm](https://nasm.us/)
 - [yasm](https://yasm.tortall.net/)
 - [zlib](https://www.zlib.net)
+- [golang](https://golang.org)
 
 ## Build your Docker image
 

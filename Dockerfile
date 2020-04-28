@@ -41,8 +41,8 @@ RUN git clone -b v1.40.0 --depth=1 https://github.com/nghttp2/nghttp2.git \
     && ./configure --prefix=/usr --enable-lib-only && make && make install \
     && cd .. && rm -rf ./nghttp2
 
-ENV CURL_CHECKOUT_VERSION=7_69_1
-ENV CURL_VERSION=7.69.1
+ARG CURL_CHECKOUT_VERSION=7_69_1
+ARG CURL_VERSION=7.69.1
 
 RUN git clone -b curl-${CURL_CHECKOUT_VERSION} --depth=1 https://github.com/curl/curl.git \
     && cd ./curl && ./maketgz ${CURL_VERSION} only && ./buildconf \
@@ -53,3 +53,11 @@ RUN git clone -b curl-${CURL_CHECKOUT_VERSION} --depth=1 https://github.com/curl
 RUN git clone -b v3.17.1 --depth=1 https://github.com/Kitware/CMake.git \
     && cd ./CMake && ./bootstrap --prefix=/usr && make && make install \
     && cd .. && rm -rf ./CMake
+
+ARG GOLANG_VERSION=1.14.2
+
+RUN curl -O https://dl.google.com/go/go${GOLANG_VERSION}.linux-amd64.tar.gz \
+    && rm -rf /usr/go && tar -C /usr -xzf ./go${GOLANG_VERSION}.linux-amd64.tar.gz \
+    && rm ./go${GOLANG_VERSION}.linux-amd64.tar.gz
+
+ENV PATH=$PATH:/usr/go/bin
