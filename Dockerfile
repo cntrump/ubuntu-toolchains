@@ -61,3 +61,10 @@ RUN curl -O https://dl.google.com/go/go${GOLANG_VERSION}.linux-amd64.tar.gz \
     && rm ./go${GOLANG_VERSION}.linux-amd64.tar.gz
 
 ENV PATH=$PATH:/usr/go/bin
+
+RUN apt-get update && apt-get install software-properties-common -y
+
+COPY llvm.sh ./
+
+RUN chmod +x ./llvm.sh && ./llvm.sh 10 && rm ./llvm.sh \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
