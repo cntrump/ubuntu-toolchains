@@ -66,3 +66,5 @@ COPY llvm.sh ./
 
 RUN chmod +x ./llvm.sh && ./llvm.sh 10 && rm ./llvm.sh \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+ENV PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/local/lib/x86_64-linux-gnu/pkgconfig:$PKG_CONFIG_PATH
