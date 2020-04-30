@@ -5,9 +5,7 @@ ARG TOOLCHAINS="build-essential automake libtool pkg-config \
 
 RUN apt-get update && apt-get install ${TOOLCHAINS} -y && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN pip3 install --user meson
-
-ENV PATH=$PATH:~/.local/bin
+RUN pip3 install meson
 
 RUN curl -O https://www.nasm.us/pub/nasm/releasebuilds/2.14.02/nasm-2.14.02.tar.bz2 \
     && tar -jxvf ./nasm-2.14.02.tar.bz2 && rm ./nasm-2.14.02.tar.bz2 \
