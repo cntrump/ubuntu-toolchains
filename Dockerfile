@@ -1,11 +1,22 @@
 FROM cntrump/ubuntu-template:20.04
 
 ARG TOOLCHAINS="build-essential automake libtool pkg-config \
-                curl git cmake ninja-build python3-pip"
+                curl git cmake ninja-build python3-pip software-properties-common"
 
-RUN apt-get update && apt-get install ${TOOLCHAINS} -y && apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install ${TOOLCHAINS} -y
+
+COPY llvm.sh /tmp/
+
+RUN chmod +x /tmp/llvm.sh && /tmp/llvm.sh 10 && rm /tmp/llvm.sh
+
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN pip3 install meson
+
+ENV CC=/usr/bin/clang-10
+ENV CPP=/usr/bin/clang-cpp-10
+ENV CXX=/usr/bin/clang++-10
+ENV LD=/usr/bin/ld.lld-10
 
 RUN curl -O https://www.nasm.us/pub/nasm/releasebuilds/2.14.02/nasm-2.14.02.tar.bz2 \
     && tar -jxvf ./nasm-2.14.02.tar.bz2 && rm ./nasm-2.14.02.tar.bz2 \
@@ -58,13 +69,11 @@ RUN curl -O https://dl.google.com/go/go${GOLANG_VERSION}.linux-amd64.tar.gz \
     && rm -rf /usr/go && tar -C /usr -xzf ./go${GOLANG_VERSION}.linux-amd64.tar.gz \
     && rm ./go${GOLANG_VERSION}.linux-amd64.tar.gz
 
+ENV CC=
+ENV CPP=
+ENV CXX=
+ENV LD=
+
 ENV PATH=$PATH:/usr/go/bin
-
-RUN apt-get update && apt-get install software-properties-common -y
-
-COPY llvm.sh ./
-
-RUN chmod +x ./llvm.sh && ./llvm.sh 10 && rm ./llvm.sh \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 ENV PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/local/lib/x86_64-linux-gnu/pkgconfig:$PKG_CONFIG_PATH
