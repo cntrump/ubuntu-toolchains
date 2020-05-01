@@ -69,11 +69,8 @@ RUN curl -O https://dl.google.com/go/go${GOLANG_VERSION}.linux-amd64.tar.gz \
     && rm -rf /usr/go && tar -C /usr -xzf ./go${GOLANG_VERSION}.linux-amd64.tar.gz \
     && rm ./go${GOLANG_VERSION}.linux-amd64.tar.gz
 
-ENV CC=
-ENV CPP=
-ENV CXX=
-ENV LD=
-
 ENV PATH=$PATH:/usr/go/bin
 
 ENV PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/local/lib/x86_64-linux-gnu/pkgconfig:$PKG_CONFIG_PATH
+
+RUN cat /etc/ld.so.conf.d/local.so.conf && ldconfig
