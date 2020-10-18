@@ -7,16 +7,16 @@ RUN apt-get update && apt-get install ${TOOLCHAINS} -y
 
 COPY llvm.sh /tmp/
 
-RUN chmod +x /tmp/llvm.sh && /tmp/llvm.sh 10 && rm /tmp/llvm.sh
+RUN chmod +x /tmp/llvm.sh && /tmp/llvm.sh 11 && rm /tmp/llvm.sh
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN pip3 install meson
 
-ENV CC=/usr/bin/clang-10
-ENV CPP=/usr/bin/clang-cpp-10
-ENV CXX=/usr/bin/clang++-10
-ENV LD=/usr/bin/ld.lld-10
+ENV CC=/usr/bin/clang-11
+ENV CPP=/usr/bin/clang-cpp-11
+ENV CXX=/usr/bin/clang++-11
+ENV LD=/usr/bin/ld.lld-11
 
 RUN curl -O https://www.nasm.us/pub/nasm/releasebuilds/2.14.02/nasm-2.14.02.tar.bz2 \
     && tar -jxvf ./nasm-2.14.02.tar.bz2 && rm ./nasm-2.14.02.tar.bz2 \
@@ -63,9 +63,9 @@ RUN git clone -b v3.17.1 --depth=1 https://github.com/Kitware/CMake.git \
     && cd ./CMake && ./bootstrap --prefix=/usr && make && make install \
     && cd .. && rm -rf ./CMake
 
-ARG GOLANG_VERSION=1.14.2
+ARG GOLANG_VERSION=1.15.3
 
-RUN curl -O https://dl.google.com/go/go${GOLANG_VERSION}.linux-amd64.tar.gz \
+RUN curl -LO https://golang.org/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz \
     && rm -rf /usr/go && tar -C /usr -xzf ./go${GOLANG_VERSION}.linux-amd64.tar.gz \
     && rm ./go${GOLANG_VERSION}.linux-amd64.tar.gz
 
